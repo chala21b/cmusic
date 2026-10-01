@@ -2,7 +2,9 @@ name: CHALA MUSIC APK
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -19,18 +21,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          packages: 'platform-tools'
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build APK
-        run: ./gradlew assembleDebug
+      - name: Build APK with Gradle
+        run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK artifact
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CHALA-MUSIC-APK
